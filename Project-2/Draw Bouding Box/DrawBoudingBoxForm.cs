@@ -15,12 +15,11 @@ namespace Project_2.Draw_Bouding_Box
         public DrawBoudingBoxForm()
         {
             InitializeComponent();
-            this.ControlBox = false;
         }
 
-        private void Exit_Click(object sender, EventArgs e)
+        private void DrawBoudingBoxForm_Load(object sender, EventArgs e)
         {
-            Application.Exit();
+
         }
     }
 }

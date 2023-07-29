@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
@@ -10,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Project_2.Move_Images
 {
@@ -19,6 +21,15 @@ namespace Project_2.Move_Images
         internal static List<Label> labels = new List<Label>();
         static List<Transaction> transactions = new List<Transaction>();
         // Additional function
+        private void SaveDisplayedImage(string path)
+        {
+            using (Bitmap bitmap = new Bitmap(pictureBox.Width, pictureBox.Height))
+            {
+                pictureBox.DrawToBitmap(bitmap, new Rectangle(0, 0, pictureBox.Width, pictureBox.Height));
+                bitmap.Save(path, ImageFormat.Png);
+            }
+        }
+
         private void MoveImage(Label label)
         {
             string source = RootFolder.imagePath[RootFolder.current_index];
@@ -96,12 +107,6 @@ namespace Project_2.Move_Images
         public MoveImagesForm()
         {
             InitializeComponent();
-            this.ControlBox = false;
-        }
-
-        private void Exit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();   
         }
 
         private void MoveImagesForm_Load(object sender, EventArgs e)
@@ -284,6 +289,151 @@ namespace Project_2.Move_Images
             {
                 MessageBox.Show("An error occured while moving the image: " + ex.Message);
             }
+        }
+
+        private void RBG_Click(object sender, EventArgs e)
+        {
+            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
+            // Perform the color channel swap (in this case, swapping Red and Blue channels)
+            for (int y = 0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    Color pixelColor = image.GetPixel(x, y);
+                    Color newColor = Color.FromArgb(pixelColor.R, pixelColor.B, pixelColor.G);
+                    image.SetPixel(x, y, newColor);
+                }
+            }
+            pictureBox.Image = new Bitmap(image);
+            image.Dispose();
+            buttonSaveImage.Visible = true;
+            BackImage.Enabled = false;
+            NextImage.Enabled = false;
+        }
+
+        private void GRB_Click(object sender, EventArgs e)
+        {
+            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
+            // Perform the color channel swap (in this case, swapping Red and Blue channels)
+            for (int y = 0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    Color pixelColor = image.GetPixel(x, y);
+                    Color newColor = Color.FromArgb(pixelColor.G, pixelColor.R, pixelColor.B);
+                    image.SetPixel(x, y, newColor);
+                }
+            }
+            pictureBox.Image = new Bitmap(image);
+            image.Dispose();
+            buttonSaveImage.Visible = true;
+            BackImage.Enabled = false;
+            NextImage.Enabled = false;
+        }
+
+        private void GBR_Click(object sender, EventArgs e)
+        {
+            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
+            // Perform the color channel swap (in this case, swapping Red and Blue channels)
+            for (int y = 0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    Color pixelColor = image.GetPixel(x, y);
+                    Color newColor = Color.FromArgb(pixelColor.G, pixelColor.B,  pixelColor.R);
+                    image.SetPixel(x, y, newColor);
+                }
+            }
+            pictureBox.Image = new Bitmap(image);
+            image.Dispose();
+            buttonSaveImage.Visible = true;
+            BackImage.Enabled = false;
+            NextImage.Enabled = false;
+        }
+
+        private void BRG_Click(object sender, EventArgs e)
+        {
+            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
+            // Perform the color channel swap (in this case, swapping Red and Blue channels)
+            for (int y = 0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    Color pixelColor = image.GetPixel(x, y);
+                    Color newColor = Color.FromArgb(pixelColor.B, pixelColor.R, pixelColor.G);
+                    image.SetPixel(x, y, newColor);
+                }
+            }
+            pictureBox.Image = new Bitmap(image);
+            image.Dispose();
+            buttonSaveImage.Visible = true;
+            BackImage.Enabled = false;
+            NextImage.Enabled = false;
+        }
+
+        private void BGR_Click(object sender, EventArgs e)
+        {
+            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
+            // Perform the color channel swap (in this case, swapping Red and Blue channels)
+            for (int y = 0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    Color pixelColor = image.GetPixel(x, y);
+                    Color newColor = Color.FromArgb(pixelColor.B, pixelColor.G, pixelColor.R);
+                    image.SetPixel(x, y, newColor);
+                }
+            }
+            pictureBox.Image = new Bitmap(image);
+            image.Dispose();
+            buttonSaveImage.Visible = true;
+            BackImage.Enabled = false;
+            NextImage.Enabled = false;
+        }
+
+        private void buttonSaveImage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                buttonSaveImage.Visible = false;
+
+                // Create a folder named "log" on the user's desktop if it doesn't exist
+                string logFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "log");
+                if (!Directory.Exists(logFolderPath))
+                {
+                    Directory.CreateDirectory(logFolderPath);
+                }
+                // Get the path of the original image
+                string imagePath = RootFolder.imagePath[RootFolder.current_index];
+                // Get the filename of the original image
+                string fileName = Path.GetFileName(imagePath);
+                // Move the original image to the "log" folder
+                string destinationPath = Path.Combine(logFolderPath, fileName);
+                File.Move(imagePath, destinationPath);
+                // Save the edited image to the original path
+                SaveDisplayedImage(imagePath);
+
+                BackImage.Enabled = true;
+                NextImage.Enabled = true;
+                if (RootFolder.current_index == 0)
+                {
+                    BackImage.Enabled = false;
+                }
+                if (RootFolder.current_index == RootFolder.imagePath.Count - 1)
+                {
+                    NextImage.Enabled = false;
+                }
+                MessageBox.Show("Image saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while saving the image: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void MoveImagesForm_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }

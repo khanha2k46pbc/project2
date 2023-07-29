@@ -28,34 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Exit = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // Exit
-            // 
-            this.Exit.Location = new System.Drawing.Point(340, 12);
-            this.Exit.Name = "Exit";
-            this.Exit.Size = new System.Drawing.Size(75, 23);
-            this.Exit.TabIndex = 0;
-            this.Exit.Text = "Exit";
-            this.Exit.UseVisualStyleBackColor = true;
-            this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
             // DrawBoudingBoxForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.Exit);
             this.MaximizeBox = false;
             this.Name = "DrawBoudingBoxForm";
             this.Text = "Draw Bouding Box";
+            this.Load += new System.EventHandler(this.DrawBoudingBoxForm_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button Exit;
     }
 }

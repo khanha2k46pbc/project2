@@ -21,18 +21,22 @@ namespace Project_2
 
         private void buttonMoveImages_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            MoveImagesForm moveImagesForm = new MoveImagesForm();
-            moveImagesForm.Show();
-            
+            using (MoveImagesForm moveImagesForm = new MoveImagesForm())
+            {
+                this.Hide();
+                moveImagesForm.ShowDialog();
+                this.Show();
+            }            
         }
 
         private void buttonDrawBoudingBox_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            DrawBoudingBoxForm drawBoudingBoxForm = new DrawBoudingBoxForm();
-            drawBoudingBoxForm.Show();
-            
+            using (DrawBoudingBoxForm drawBoudingBoxForm = new DrawBoudingBoxForm())
+            {
+                this.Hide();
+                drawBoudingBoxForm.ShowDialog();
+                this.Show();
+            }
         }
     }
 }
