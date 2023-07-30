@@ -77,28 +77,28 @@
             this.textBoxName.Location = new System.Drawing.Point(56, 6);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(100, 20);
-            this.textBoxName.TabIndex = 4;
+            this.textBoxName.TabIndex = 0;
             // 
             // textBoxKey
             // 
             this.textBoxKey.Location = new System.Drawing.Point(56, 40);
             this.textBoxKey.Name = "textBoxKey";
             this.textBoxKey.Size = new System.Drawing.Size(100, 20);
-            this.textBoxKey.TabIndex = 4;
+            this.textBoxKey.TabIndex = 1;
             // 
             // textBoxPath
             // 
             this.textBoxPath.Location = new System.Drawing.Point(56, 78);
             this.textBoxPath.Name = "textBoxPath";
             this.textBoxPath.Size = new System.Drawing.Size(100, 20);
-            this.textBoxPath.TabIndex = 4;
+            this.textBoxPath.TabIndex = 2;
             // 
             // buttonChoosePath
             // 
             this.buttonChoosePath.Location = new System.Drawing.Point(162, 76);
             this.buttonChoosePath.Name = "buttonChoosePath";
             this.buttonChoosePath.Size = new System.Drawing.Size(90, 23);
-            this.buttonChoosePath.TabIndex = 5;
+            this.buttonChoosePath.TabIndex = 3;
             this.buttonChoosePath.Text = "Choose Path";
             this.buttonChoosePath.UseVisualStyleBackColor = true;
             this.buttonChoosePath.Click += new System.EventHandler(this.buttonChoosePath_Click);
@@ -109,7 +109,7 @@
             this.buttonAddLabel.Location = new System.Drawing.Point(0, 113);
             this.buttonAddLabel.Name = "buttonAddLabel";
             this.buttonAddLabel.Size = new System.Drawing.Size(266, 23);
-            this.buttonAddLabel.TabIndex = 6;
+            this.buttonAddLabel.TabIndex = 4;
             this.buttonAddLabel.Text = "Add Label";
             this.buttonAddLabel.UseVisualStyleBackColor = true;
             this.buttonAddLabel.Click += new System.EventHandler(this.buttonAddLabel_Click);
@@ -139,7 +139,10 @@
             this.Controls.Add(this.labelPath);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.labelKey);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddLabelForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AddLabelForm";
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderKey)).EndInit();

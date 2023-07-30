@@ -21,10 +21,25 @@ C:\Users\khanh\project2\Project-2\obj\Debug\Project-2.csproj.SuggestedBindingRed
 C:\Users\khanh\project2\Project-2\obj\Debug\Project_2.Draw_Bouding_Box.DrawBoudingBoxForm.resources
 C:\Users\khanh\project2\Project-2\obj\Debug\Project_2.ModeSelectionForm.resources
 C:\Users\khanh\project2\Project-2\obj\Debug\Project_2.Move_Images.AddLabelForm.resources
-C:\Users\khanh\project2\Project-2\obj\Debug\Project_2.Move_Images.ColorChannelSwapForm.resources
 C:\Users\khanh\project2\Project-2\obj\Debug\Project_2.Move_Images.MoveImagesForm.resources
 C:\Users\khanh\project2\Project-2\obj\Debug\Project_2.Properties.Resources.resources
 C:\Users\khanh\project2\Project-2\obj\Debug\Project-2.csproj.GenerateResource.cache
 C:\Users\khanh\project2\Project-2\obj\Debug\Project-2.csproj.CoreCompileInputs.cache
 C:\Users\khanh\project2\Project-2\obj\Debug\Project-2.exe
 C:\Users\khanh\project2\Project-2\obj\Debug\Project-2.pdb
+C:\Users\khanh\project2\Project-2\obj\Debug\Project_2.Move_Images.ColorChannelSwap.resources
+D:\source code\project2\Project-2\bin\Debug\Project-2.exe.config
+D:\source code\project2\Project-2\bin\Debug\Project-2.exe
+D:\source code\project2\Project-2\bin\Debug\Project-2.pdb
+D:\source code\project2\Project-2\obj\Debug\Project-2.csproj.AssemblyReference.cache
+D:\source code\project2\Project-2\obj\Debug\Project-2.csproj.SuggestedBindingRedirects.cache
+D:\source code\project2\Project-2\obj\Debug\Project_2.Draw_Bouding_Box.DrawBoudingBoxForm.resources
+D:\source code\project2\Project-2\obj\Debug\Project_2.ModeSelectionForm.resources
+D:\source code\project2\Project-2\obj\Debug\Project_2.Move_Images.AddLabelForm.resources
+D:\source code\project2\Project-2\obj\Debug\Project_2.Move_Images.ColorChannelSwap.resources
+D:\source code\project2\Project-2\obj\Debug\Project_2.Move_Images.MoveImagesForm.resources
+D:\source code\project2\Project-2\obj\Debug\Project_2.Properties.Resources.resources
+D:\source code\project2\Project-2\obj\Debug\Project-2.csproj.GenerateResource.cache
+D:\source code\project2\Project-2\obj\Debug\Project-2.csproj.CoreCompileInputs.cache
+D:\source code\project2\Project-2\obj\Debug\Project-2.exe
+D:\source code\project2\Project-2\obj\Debug\Project-2.pdb

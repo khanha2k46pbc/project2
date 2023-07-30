@@ -17,61 +17,15 @@ namespace Project_2.Move_Images
 {
     public partial class MoveImagesForm : Form
     {
+        // Constructor
+        public MoveImagesForm()
+        {
+            InitializeComponent();
+        }
         // Object Initialization
         internal static List<Label> labels = new List<Label>();
         static List<Transaction> transactions = new List<Transaction>();
         // Additional function
-        private void SaveDisplayedImage(string path)
-        {
-            using (Bitmap bitmap = new Bitmap(pictureBox.Width, pictureBox.Height))
-            {
-                pictureBox.DrawToBitmap(bitmap, new Rectangle(0, 0, pictureBox.Width, pictureBox.Height));
-                bitmap.Save(path, ImageFormat.Png);
-            }
-        }
-
-        private void MoveImage(Label label)
-        {
-            string source = RootFolder.imagePath[RootFolder.current_index];
-            string destination = Path.Combine(label.path, Path.GetFileName(source));
-            try
-            {
-                File.Move(source, destination);
-                if (RootFolder.current_index == RootFolder.imagePath.Count - 1)
-                {
-                    RootFolder.imagePath.RemoveAt(RootFolder.current_index);
-                    RootFolder.current_index--;
-                }
-                else
-                {
-                    RootFolder.imagePath.RemoveAt(RootFolder.current_index);
-                }
-                if (RootFolder.imagePath.Count == 0)
-                {
-                    MessageBox.Show("You're done");
-                    return;
-                };
-                
-                ShowImage();
-                label.imagePath.Add(destination);
-                for (int i = 0; i < labels.Count; i++)
-                {
-                    if (listViewLabels.Items[i].SubItems[0].Text == label.name) 
-                    {
-                        listViewLabels.Items[i].SubItems[2].Text = int.Parse(listViewLabels.Items[i].SubItems[2].Text) + 1 + "";
-                    }
-                }
-
-                Transaction transaction = new Transaction(source, destination);
-                transactions.Add(transaction);
-                Undo.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occured while moving the image: " + ex.Message);
-            }
-        }
-
         internal void ShowLabel()
         {
             listViewLabels.Items.Clear();
@@ -90,30 +44,32 @@ namespace Project_2.Move_Images
 
         private void ShowImage()
         {
-            labelIndex.Text = "Image: " + (RootFolder.current_index + 1) + '/' + RootFolder.imagePath.Count();
+            // Update textBoxIndex
+            textBoxIndex.Text = "" + (RootFolder.current_index + 1);
+            // Update labelImageCount
+            labelImageCount.Text = "/ " + RootFolder.imagePath.Count();
+            // Update pictureBox
             pictureBox.ImageLocation = RootFolder.imagePath[RootFolder.current_index];
         }
+
         private void Clean()
         {
-            RefreshRootFolder.Enabled = false;
-            AddLabel.Enabled = false;
+            Refresh.Enabled = false;
             RemoveLabel.Enabled = false;
             BackImage.Enabled = false;
             NextImage.Enabled = false;
             Undo.Enabled = false;
             ColorChannelSwap.Enabled = false;
+
+            textBoxIndex.Visible = false;
+            labelImageCount.Visible = false;
         }
         // Handle event
-        public MoveImagesForm()
-        {
-            InitializeComponent();
-        }
-
         private void MoveImagesForm_Load(object sender, EventArgs e)
         {
             Clean();
         }
-
+        // -------------------------------------------------------------
         private void ChooseRootFolder_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
@@ -123,25 +79,17 @@ namespace Project_2.Move_Images
                 RootFolder.path = folderBrowserDialog.SelectedPath;
             }
 
-            // Search for images
             DialogResult dialogResult = MessageBox.Show("Do you want scan images from subfolders?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                RootFolder.imagePath = Directory.GetFiles(path: RootFolder.path, searchPattern: "*.jpg", searchOption: SearchOption.AllDirectories).ToList();
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.png", searchOption: SearchOption.AllDirectories));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.bmp", searchOption: SearchOption.AllDirectories));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.gif", searchOption: SearchOption.AllDirectories));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.jpeg", searchOption: SearchOption.AllDirectories));
+                RootFolder.isAllDirectories = true;
             }
             else
             {
-                RootFolder.imagePath = Directory.GetFiles(path: RootFolder.path, searchPattern: "*.jpg", searchOption: SearchOption.TopDirectoryOnly).ToList();
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.png", searchOption: SearchOption.TopDirectoryOnly));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.bmp", searchOption: SearchOption.TopDirectoryOnly));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.gif", searchOption: SearchOption.TopDirectoryOnly));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.jpeg", searchOption: SearchOption.TopDirectoryOnly));
+                RootFolder.isAllDirectories = false;
             }
-
+            // Search for images
+            RootFolder.refresh();
             if (RootFolder.imagePath.Count() == 0)
             {
                 MessageBox.Show("Can't find any image!");
@@ -153,37 +101,32 @@ namespace Project_2.Move_Images
             ShowImage();
 
             // Enable button
-            RefreshRootFolder.Enabled = true;
-            AddLabel.Enabled = true;
+            Refresh.Enabled = true;
             if (RootFolder.imagePath.Count() > 1)
             {
                 NextImage.Enabled = true;
             }
             ColorChannelSwap.Enabled = true;
+
+            textBoxIndex.Visible = true;
+            labelImageCount.Visible = true;
         }
 
-        private void RefreshRootFolder_Click(object sender, EventArgs e)
+        private void Refresh_Click(object sender, EventArgs e)
         {
             Clean();
-            // Search for images
+            // Update Root Folder----------------------------------------------
             DialogResult dialogResult = MessageBox.Show("Do you want scan images from subfolders?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                RootFolder.imagePath = Directory.GetFiles(path: RootFolder.path, searchPattern: "*.jpg", searchOption: SearchOption.AllDirectories).ToList();
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.png", searchOption: SearchOption.AllDirectories));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.bmp", searchOption: SearchOption.AllDirectories));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.gif", searchOption: SearchOption.AllDirectories));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.jpeg", searchOption: SearchOption.AllDirectories));
+                RootFolder.isAllDirectories = true;
             }
             else
             {
-                RootFolder.imagePath = Directory.GetFiles(path: RootFolder.path, searchPattern: "*.jpg", searchOption: SearchOption.TopDirectoryOnly).ToList();
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.png", searchOption: SearchOption.TopDirectoryOnly));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.bmp", searchOption: SearchOption.TopDirectoryOnly));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.gif", searchOption: SearchOption.TopDirectoryOnly));
-                RootFolder.imagePath.AddRange(Directory.GetFiles(path: RootFolder.path, searchPattern: "*.jpeg", searchOption: SearchOption.TopDirectoryOnly));
+                RootFolder.isAllDirectories = false;
             }
-
+            // Search for images
+            RootFolder.refresh();
             if (RootFolder.imagePath.Count() == 0)
             {
                 MessageBox.Show("Can't find any image!");
@@ -191,20 +134,28 @@ namespace Project_2.Move_Images
             }
 
             // Display the first image
-            int start_index = 0;
-            RootFolder.current_index = start_index;
+            RootFolder.current_index = 0;
             ShowImage();
 
             // Enable button
-            RefreshRootFolder.Enabled = true;
-            AddLabel.Enabled = true;
+            Refresh.Enabled = true;
             if (RootFolder.imagePath.Count() > 1)
             {
                 NextImage.Enabled = true;
             }
             ColorChannelSwap.Enabled = true;
-        }
 
+            textBoxIndex.Visible = true;
+            labelImageCount.Visible = true;
+
+            //Update labels and listViewLabels
+            for (int i = 0; i < labels.Count; i++)
+            {
+                labels[i].refresh();
+            }
+            ShowLabel();
+        }
+        // -------------------------------------------------------------
         private void AddLabel_Click(object sender, EventArgs e)
         {
             AddLabelForm addLabelForm = new AddLabelForm();
@@ -230,24 +181,7 @@ namespace Project_2.Move_Images
                 }
             }
         }
-
-        private void listViewLabels_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listViewLabels.SelectedItems.Count > 0)
-            {
-                RemoveLabel.Enabled = true;
-                foreach (Label label in labels)
-                {
-                    if (label.name == listViewLabels.SelectedItems[0].SubItems[0].Text)
-                    {
-                        MoveImage(label);
-                        break;
-                    }
-                }
-                
-            }
-        }
-
+        // --------------------------------------------------------------
         private void BackImage_Click(object sender, EventArgs e)
         {
             NextImage.Enabled = true;
@@ -269,171 +203,246 @@ namespace Project_2.Move_Images
                 NextImage.Enabled=false;
             }
         }
+        // ---------------------------------------------------------------
+        private void listViewLabels_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listViewLabels.SelectedItems.Count > 0)
+            {
+                RemoveLabel.Enabled = true;
+            }
+            else RemoveLabel.Enabled = false;
+        }
 
         private void Undo_Click(object sender, EventArgs e)
         {
-            string source = transactions[transactions.Count - 1].destination;
-            string destination = transactions[transactions.Count - 1].source;
+            string destination = transactions[transactions.Count - 1].destination;
+            string source = transactions[transactions.Count - 1].source;
             try
             {
-                File.Move(source, destination);
-                RootFolder.imagePath.Add(destination);
-                transactions.RemoveAt(transactions.Count - 1);
-                if (transactions.Count == 0)
-                {
-                    Undo.Enabled = false;
-                }
-                ShowImage();
+                File.Move(destination, source); //destination to source
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error occured while moving the image: " + ex.Message);
+                return;
             }
-        }
-
-        private void RBG_Click(object sender, EventArgs e)
-        {
-            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
-            // Perform the color channel swap (in this case, swapping Red and Blue channels)
-            for (int y = 0; y < image.Height; y++)
+            //Update data -----------------------------------------------------------------
+            //Update RootFolder
+            RootFolder.refresh();
+            //Update label in labels
+            for (int i = 0; i < labels.Count; i++)
             {
-                for (int x = 0; x < image.Width; x++)
+                if (labels[i].path == Path.GetDirectoryName(destination))
                 {
-                    Color pixelColor = image.GetPixel(x, y);
-                    Color newColor = Color.FromArgb(pixelColor.R, pixelColor.B, pixelColor.G);
-                    image.SetPixel(x, y, newColor);
+                    labels[i].refresh();
+                    break;
                 }
             }
-            pictureBox.Image = new Bitmap(image);
-            image.Dispose();
-            buttonSaveImage.Visible = true;
-            BackImage.Enabled = false;
-            NextImage.Enabled = false;
+            //Update transactions
+            transactions.RemoveAt(transactions.Count - 1);
+            //Update view-----------------------------------------------------------------
+            // Update BackImage
+            if (RootFolder.current_index > 0)
+            {
+                BackImage.Enabled = true;
+            }
+            // Update NextImage
+            if (RootFolder.current_index < RootFolder.imagePath.Count - 1)
+            {
+                NextImage.Enabled = true;
+            }
+            // Update Undo
+            if (transactions.Count == 0) Undo.Enabled = false;
+            // Update PictureBox and textBoxIndex and labelImageCount
+            ShowImage();
+            // Update listViewLabels
+            ShowLabel();
+            // Update textBoxIndex and labelImageCount
+            textBoxIndex.Visible = true;
+            labelImageCount.Visible = true;
         }
 
-        private void GRB_Click(object sender, EventArgs e)
+        private void ColorChannelSwap_Click(object sender, EventArgs e)
         {
-            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
-            // Perform the color channel swap (in this case, swapping Red and Blue channels)
-            for (int y = 0; y < image.Height; y++)
+            ColorChannelSwap colorChannelSwap = new ColorChannelSwap(RootFolder.imagePath[RootFolder.current_index]);
+            colorChannelSwap.ShowDialog();
+            ShowImage();
+        }
+        // ---------------------------------------------------------------
+        private void MoveImagesForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Kiểm tra xem người dùng có nhấn phím ESC không
+            if (e.KeyCode == Keys.Escape)
             {
-                for (int x = 0; x < image.Width; x++)
+                this.Close();
+            }
+            // Back image
+            if (e.KeyCode == Keys.Left && BackImage.Enabled)
+            {
+                BackImage.PerformClick();
+            }
+            // Next image
+            if (e.KeyCode == Keys.Right && NextImage.Enabled)
+            {
+                NextImage.PerformClick();
+            }
+            // Kiểm tra nếu TextBox hoặc control khác đang có focus
+            if (ActiveControl is TextBox || ActiveControl is RichTextBox || ActiveControl is ComboBox)
+            {
+                // Nếu là TextBox hoặc các control bạn muốn loại trừ, hủy bỏ xử lý sự kiện bàn phím
+                return;
+            }
+            // Move file
+            char pressedChar = (char)e.KeyCode;
+            for (int i = 0; i < labels.Count; i++)
+            {
+                if (pressedChar == labels[i].key)
                 {
-                    Color pixelColor = image.GetPixel(x, y);
-                    Color newColor = Color.FromArgb(pixelColor.G, pixelColor.R, pixelColor.B);
-                    image.SetPixel(x, y, newColor);
+                    string source = RootFolder.imagePath[RootFolder.current_index];
+                    string fileName = Path.GetFileName(source);
+                    string destination = Path.Combine(labels[i].path, fileName);
+                    // move images
+                    try
+                    {
+                        File.Move(source, destination);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred while moving the file: " + ex.Message);
+                        return;
+                    }
+                    // Update data -------------------------------------------------------------------
+                    // Update RootFolder
+                    RootFolder.imagePath.RemoveAt(RootFolder.current_index);
+                    while (RootFolder.current_index >= RootFolder.imagePath.Count && RootFolder.current_index > 0)
+                    {
+                        RootFolder.current_index--;
+                    }
+                    // Update label in labels
+                    labels[i].refresh();
+                    // Create transaction and add to transactions
+                    Transaction transaction = new Transaction(source, destination);
+                    transactions.Add(transaction);
+                    // if there are no image------------------------------------------------------------
+                    if (RootFolder.imagePath.Count == 0)
+                    {
+                        MessageBox.Show("Congratulations, you have moved all the images");
+                        Clean();
+                        Undo.Enabled = true;
+                        pictureBox.Image = Properties.Resources.Please_Choose_Root_Folder1;
+                        return;
+                    }
+                    // if there are still images update views-------------------------------------------
+                    // Update BackImage
+                    if (RootFolder.current_index == 0)
+                    {
+                        BackImage.Enabled = false;
+                    }
+                    // Update NextImage
+                    if (RootFolder.current_index == RootFolder.imagePath.Count - 1)
+                    {
+                        NextImage.Enabled = false;
+                    }
+                    // Update Undo
+                    Undo.Enabled = true;
+                    // Update PictureBox and textBoxIndex and labelImageCount
+                    ShowImage();
+                    // Update listViewLabels
+                    ShowLabel();
                 }
             }
-            pictureBox.Image = new Bitmap(image);
-            image.Dispose();
-            buttonSaveImage.Visible = true;
-            BackImage.Enabled = false;
-            NextImage.Enabled = false;
         }
 
-        private void GBR_Click(object sender, EventArgs e)
+        private void MoveImagesForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
-            // Perform the color channel swap (in this case, swapping Red and Blue channels)
-            for (int y = 0; y < image.Height; y++)
+            if (transactions.Count > 0)
             {
-                for (int x = 0; x < image.Width; x++)
+                DialogResult dialogResult = MessageBox.Show("Do you want to save transaction history? This will create a file log on your Root Folder.", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
                 {
-                    Color pixelColor = image.GetPixel(x, y);
-                    Color newColor = Color.FromArgb(pixelColor.G, pixelColor.B,  pixelColor.R);
-                    image.SetPixel(x, y, newColor);
+                    int index = 0;
+                    string destination;
+                    do
+                    {
+                        index++;
+                        destination = Path.Combine(RootFolder.path, "move image log " + index + ".txt");
+                    } while (File.Exists(destination));
+
+                    string log = "";
+                    foreach (Transaction transaction in transactions)
+                    {
+                        log += transaction.source + "=>" + transaction.destination + "\n";
+                    }
+                    File.WriteAllText(destination, log);
                 }
             }
-            pictureBox.Image = new Bitmap(image);
-            image.Dispose();
-            buttonSaveImage.Visible = true;
-            BackImage.Enabled = false;
-            NextImage.Enabled = false;
-        }
-
-        private void BRG_Click(object sender, EventArgs e)
-        {
-            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
-            // Perform the color channel swap (in this case, swapping Red and Blue channels)
-            for (int y = 0; y < image.Height; y++)
+            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No)
             {
-                for (int x = 0; x < image.Width; x++)
-                {
-                    Color pixelColor = image.GetPixel(x, y);
-                    Color newColor = Color.FromArgb(pixelColor.B, pixelColor.R, pixelColor.G);
-                    image.SetPixel(x, y, newColor);
-                }
+                e.Cancel = true;
             }
-            pictureBox.Image = new Bitmap(image);
-            image.Dispose();
-            buttonSaveImage.Visible = true;
-            BackImage.Enabled = false;
-            NextImage.Enabled = false;
         }
-
-        private void BGR_Click(object sender, EventArgs e)
+        //-------------------------------------------------------------
+        private void textBoxIndex_KeyDown(object sender, KeyEventArgs e)
         {
-            Bitmap image = new Bitmap(RootFolder.imagePath[RootFolder.current_index]);
-            // Perform the color channel swap (in this case, swapping Red and Blue channels)
-            for (int y = 0; y < image.Height; y++)
+            if (e.KeyCode == Keys.Enter)
             {
-                for (int x = 0; x < image.Width; x++)
+                try
                 {
-                    Color pixelColor = image.GetPixel(x, y);
-                    Color newColor = Color.FromArgb(pixelColor.B, pixelColor.G, pixelColor.R);
-                    image.SetPixel(x, y, newColor);
+                    int index = int.Parse(textBoxIndex.Text);
+                    if (index < 1 || index > RootFolder.imagePath.Count)
+                    {
+                        throw new Exception("out of index");
+                    }
+                    RootFolder.current_index = index - 1;
+                    if (RootFolder.current_index == 0) BackImage.Enabled = false;
+                    if (RootFolder.current_index == RootFolder.imagePath.Count - 1) NextImage.Enabled = false;
+                    if (RootFolder.current_index > 0) BackImage.Enabled = true;
+                    if (RootFolder.current_index < RootFolder.imagePath.Count - 1) NextImage.Enabled = true;
                 }
+                catch { }
+                ShowImage();
+                pictureBox.Focus();
             }
-            pictureBox.Image = new Bitmap(image);
-            image.Dispose();
-            buttonSaveImage.Visible = true;
-            BackImage.Enabled = false;
-            NextImage.Enabled = false;
         }
 
-        private void buttonSaveImage_Click(object sender, EventArgs e)
+        private void textBoxIndex_Leave(object sender, EventArgs e)
         {
             try
             {
-                buttonSaveImage.Visible = false;
-
-                // Create a folder named "log" on the user's desktop if it doesn't exist
-                string logFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "log");
-                if (!Directory.Exists(logFolderPath))
+                int index = int.Parse(textBoxIndex.Text);
+                if (index < 1 || index > RootFolder.imagePath.Count)
                 {
-                    Directory.CreateDirectory(logFolderPath);
+                    throw new Exception("out of index");
                 }
-                // Get the path of the original image
-                string imagePath = RootFolder.imagePath[RootFolder.current_index];
-                // Get the filename of the original image
-                string fileName = Path.GetFileName(imagePath);
-                // Move the original image to the "log" folder
-                string destinationPath = Path.Combine(logFolderPath, fileName);
-                File.Move(imagePath, destinationPath);
-                // Save the edited image to the original path
-                SaveDisplayedImage(imagePath);
-
-                BackImage.Enabled = true;
-                NextImage.Enabled = true;
-                if (RootFolder.current_index == 0)
-                {
-                    BackImage.Enabled = false;
-                }
-                if (RootFolder.current_index == RootFolder.imagePath.Count - 1)
-                {
-                    NextImage.Enabled = false;
-                }
-                MessageBox.Show("Image saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RootFolder.current_index = index - 1;
+                if (RootFolder.current_index == 0) BackImage.Enabled = false;
+                if (RootFolder.current_index ==  RootFolder.imagePath.Count - 1) NextImage.Enabled = false;
+                if (RootFolder.current_index > 0) BackImage.Enabled = true;
+                if (RootFolder.current_index < RootFolder.imagePath.Count - 1) NextImage.Enabled = true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while saving the image: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch { }
+            ShowImage();
+        }
+        //-------------------------------------------------------------
+        private void splitContainer_KeyDown(object sender, KeyEventArgs e)
+        {
+            splitContainer.IsSplitterFixed = true;
         }
 
-        private void MoveImagesForm_KeyDown(object sender, KeyEventArgs e)
+        private void splitContainer_MouseDown(object sender, MouseEventArgs e)
         {
+            splitContainer.IsSplitterFixed = false;
+        }
 
+        private void splitContainer_MouseMove(object sender, MouseEventArgs e)
+        {
+            splitContainer.IsSplitterFixed = false;
+        }
+
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+            pictureBox.Focus();
         }
     }
 }

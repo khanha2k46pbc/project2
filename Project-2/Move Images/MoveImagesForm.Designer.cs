@@ -30,28 +30,28 @@
         {
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.ChooseRootFolder = new System.Windows.Forms.ToolStripButton();
-            this.RefreshRootFolder = new System.Windows.Forms.ToolStripButton();
+            this.Refresh = new System.Windows.Forms.ToolStripButton();
             this.AddLabel = new System.Windows.Forms.ToolStripButton();
             this.RemoveLabel = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.BackImage = new System.Windows.Forms.ToolStripButton();
             this.NextImage = new System.Windows.Forms.ToolStripButton();
-            this.Undo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.ColorChannelSwap = new System.Windows.Forms.ToolStripDropDownButton();
-            this.RBG = new System.Windows.Forms.ToolStripMenuItem();
-            this.GRB = new System.Windows.Forms.ToolStripMenuItem();
-            this.GBR = new System.Windows.Forms.ToolStripMenuItem();
-            this.BRG = new System.Windows.Forms.ToolStripMenuItem();
-            this.BGR = new System.Windows.Forms.ToolStripMenuItem();
+            this.Undo = new System.Windows.Forms.ToolStripButton();
+            this.ColorChannelSwap = new System.Windows.Forms.ToolStripButton();
             this.listViewLabels = new System.Windows.Forms.ListView();
             this.columnHeaderLabel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.labelIndex = new System.Windows.Forms.Label();
+            this.labelImageCount = new System.Windows.Forms.Label();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.buttonSaveImage = new System.Windows.Forms.Button();
+            this.textBoxIndex = new System.Windows.Forms.TextBox();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
+            this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
+            this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,14 +59,14 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChooseRootFolder,
-            this.RefreshRootFolder,
+            this.Refresh,
             this.AddLabel,
             this.RemoveLabel,
             this.toolStripSeparator1,
             this.BackImage,
             this.NextImage,
-            this.Undo,
             this.toolStripSeparator2,
+            this.Undo,
             this.ColorChannelSwap});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -84,15 +84,15 @@
             this.ChooseRootFolder.Text = "Choose Root Folder";
             this.ChooseRootFolder.Click += new System.EventHandler(this.ChooseRootFolder_Click);
             // 
-            // RefreshRootFolder
+            // Refresh
             // 
-            this.RefreshRootFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RefreshRootFolder.Image = global::Project_2.Properties.Resources.refresh;
-            this.RefreshRootFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RefreshRootFolder.Name = "RefreshRootFolder";
-            this.RefreshRootFolder.Size = new System.Drawing.Size(23, 22);
-            this.RefreshRootFolder.Text = "Refresh Root Folder";
-            this.RefreshRootFolder.Click += new System.EventHandler(this.RefreshRootFolder_Click);
+            this.Refresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Refresh.Image = global::Project_2.Properties.Resources.refresh;
+            this.Refresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Refresh.Name = "Refresh";
+            this.Refresh.Size = new System.Drawing.Size(23, 22);
+            this.Refresh.Text = "Refresh Root Folder";
+            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
             // 
             // AddLabel
             // 
@@ -139,6 +139,11 @@
             this.NextImage.Text = "Next";
             this.NextImage.Click += new System.EventHandler(this.NextImage_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // Undo
             // 
             this.Undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -149,60 +154,15 @@
             this.Undo.Text = "Undo";
             this.Undo.Click += new System.EventHandler(this.Undo_Click);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
             // ColorChannelSwap
             // 
             this.ColorChannelSwap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ColorChannelSwap.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.RBG,
-            this.GRB,
-            this.GBR,
-            this.BRG,
-            this.BGR});
             this.ColorChannelSwap.Image = global::Project_2.Properties.Resources.The_three_primary_colors_of_RGB_Color_Model__Red__Green__Blue_;
             this.ColorChannelSwap.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ColorChannelSwap.Name = "ColorChannelSwap";
-            this.ColorChannelSwap.Size = new System.Drawing.Size(29, 22);
+            this.ColorChannelSwap.Size = new System.Drawing.Size(23, 22);
             this.ColorChannelSwap.Text = "Color Channel Swap";
-            // 
-            // RBG
-            // 
-            this.RBG.Name = "RBG";
-            this.RBG.Size = new System.Drawing.Size(96, 22);
-            this.RBG.Text = "RBG";
-            this.RBG.Click += new System.EventHandler(this.RBG_Click);
-            // 
-            // GRB
-            // 
-            this.GRB.Name = "GRB";
-            this.GRB.Size = new System.Drawing.Size(96, 22);
-            this.GRB.Text = "GRB";
-            this.GRB.Click += new System.EventHandler(this.GRB_Click);
-            // 
-            // GBR
-            // 
-            this.GBR.Name = "GBR";
-            this.GBR.Size = new System.Drawing.Size(96, 22);
-            this.GBR.Text = "GBR";
-            this.GBR.Click += new System.EventHandler(this.GBR_Click);
-            // 
-            // BRG
-            // 
-            this.BRG.Name = "BRG";
-            this.BRG.Size = new System.Drawing.Size(96, 22);
-            this.BRG.Text = "BRG";
-            this.BRG.Click += new System.EventHandler(this.BRG_Click);
-            // 
-            // BGR
-            // 
-            this.BGR.Name = "BGR";
-            this.BGR.Size = new System.Drawing.Size(96, 22);
-            this.BGR.Text = "BGR";
-            this.BGR.Click += new System.EventHandler(this.BGR_Click);
+            this.ColorChannelSwap.Click += new System.EventHandler(this.ColorChannelSwap_Click);
             // 
             // listViewLabels
             // 
@@ -210,12 +170,13 @@
             this.columnHeaderLabel,
             this.columnHeaderKey,
             this.columnHeaderNumber});
+            this.listViewLabels.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewLabels.FullRowSelect = true;
             this.listViewLabels.HideSelection = false;
-            this.listViewLabels.Location = new System.Drawing.Point(617, 28);
+            this.listViewLabels.Location = new System.Drawing.Point(0, 0);
             this.listViewLabels.MultiSelect = false;
             this.listViewLabels.Name = "listViewLabels";
-            this.listViewLabels.Size = new System.Drawing.Size(183, 410);
+            this.listViewLabels.Size = new System.Drawing.Size(182, 425);
             this.listViewLabels.TabIndex = 4;
             this.listViewLabels.UseCompatibleStateImageBehavior = false;
             this.listViewLabels.View = System.Windows.Forms.View.Details;
@@ -236,54 +197,85 @@
             this.columnHeaderNumber.Text = "Number";
             this.columnHeaderNumber.Width = 57;
             // 
-            // labelIndex
+            // labelImageCount
             // 
-            this.labelIndex.AutoSize = true;
-            this.labelIndex.Location = new System.Drawing.Point(552, 12);
-            this.labelIndex.Name = "labelIndex";
-            this.labelIndex.Size = new System.Drawing.Size(59, 13);
-            this.labelIndex.TabIndex = 5;
-            this.labelIndex.Text = "Image: 0/0";
+            this.labelImageCount.AutoSize = true;
+            this.labelImageCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelImageCount.Location = new System.Drawing.Point(540, 7);
+            this.labelImageCount.Name = "labelImageCount";
+            this.labelImageCount.Size = new System.Drawing.Size(23, 15);
+            this.labelImageCount.TabIndex = 5;
+            this.labelImageCount.Text = "/ 0";
+            // 
+            // splitContainer
+            // 
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer.Name = "splitContainer";
+            // 
+            // splitContainer.Panel1
+            // 
+            this.splitContainer.Panel1.Controls.Add(this.pictureBox);
+            // 
+            // splitContainer.Panel2
+            // 
+            this.splitContainer.Panel2.Controls.Add(this.listViewLabels);
+            this.splitContainer.Size = new System.Drawing.Size(800, 425);
+            this.splitContainer.SplitterDistance = 614;
+            this.splitContainer.TabIndex = 6;
+            this.splitContainer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer_KeyDown);
+            this.splitContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.splitContainer_MouseDown);
+            this.splitContainer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.splitContainer_MouseMove);
             // 
             // pictureBox
             // 
-            this.pictureBox.Image = global::Project_2.Properties.Resources.Please_Choose_Root_Folder;
-            this.pictureBox.InitialImage = global::Project_2.Properties.Resources.Please_Choose_Root_Folder;
-            this.pictureBox.Location = new System.Drawing.Point(0, 28);
+            this.pictureBox.BackColor = System.Drawing.Color.White;
+            this.pictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox.Image = global::Project_2.Properties.Resources.Please_Choose_Root_Folder1;
+            this.pictureBox.InitialImage = global::Project_2.Properties.Resources.Please_Choose_Root_Folder1;
+            this.pictureBox.Location = new System.Drawing.Point(0, 0);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(611, 410);
+            this.pictureBox.Size = new System.Drawing.Size(614, 425);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox.TabIndex = 3;
             this.pictureBox.TabStop = false;
+            this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
             // 
-            // buttonSaveImage
+            // textBoxIndex
             // 
-            this.buttonSaveImage.Location = new System.Drawing.Point(444, 2);
-            this.buttonSaveImage.Name = "buttonSaveImage";
-            this.buttonSaveImage.Size = new System.Drawing.Size(75, 23);
-            this.buttonSaveImage.TabIndex = 6;
-            this.buttonSaveImage.Text = "Save Image";
-            this.buttonSaveImage.UseVisualStyleBackColor = true;
-            this.buttonSaveImage.Visible = false;
-            this.buttonSaveImage.Click += new System.EventHandler(this.buttonSaveImage_Click);
+            this.textBoxIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxIndex.Location = new System.Drawing.Point(497, 4);
+            this.textBoxIndex.Name = "textBoxIndex";
+            this.textBoxIndex.Size = new System.Drawing.Size(37, 21);
+            this.textBoxIndex.TabIndex = 7;
+            this.textBoxIndex.Text = "0";
+            this.textBoxIndex.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxIndex.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxIndex_KeyDown);
+            this.textBoxIndex.Leave += new System.EventHandler(this.textBoxIndex_Leave);
             // 
             // MoveImagesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.buttonSaveImage);
-            this.Controls.Add(this.labelIndex);
-            this.Controls.Add(this.listViewLabels);
-            this.Controls.Add(this.pictureBox);
+            this.Controls.Add(this.textBoxIndex);
+            this.Controls.Add(this.labelImageCount);
+            this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.toolStrip1);
-            this.MaximizeBox = false;
+            this.KeyPreview = true;
             this.Name = "MoveImagesForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Move Images";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MoveImagesForm_FormClosing);
             this.Load += new System.EventHandler(this.MoveImagesForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MoveImagesForm_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
+            this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -296,7 +288,7 @@
         private System.Windows.Forms.ToolStripButton ChooseRootFolder;
         private System.Windows.Forms.ToolStripButton NextImage;
         private System.Windows.Forms.ToolStripButton BackImage;
-        private System.Windows.Forms.ToolStripButton RefreshRootFolder;
+        private System.Windows.Forms.ToolStripButton Refresh;
         private System.Windows.Forms.ToolStripButton Undo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -306,14 +298,10 @@
         private System.Windows.Forms.ColumnHeader columnHeaderLabel;
         private System.Windows.Forms.ColumnHeader columnHeaderKey;
         private System.Windows.Forms.ColumnHeader columnHeaderNumber;
-        private System.Windows.Forms.Label labelIndex;
+        private System.Windows.Forms.Label labelImageCount;
         private System.Windows.Forms.ToolStripButton RemoveLabel;
-        private System.Windows.Forms.ToolStripDropDownButton ColorChannelSwap;
-        private System.Windows.Forms.ToolStripMenuItem RBG;
-        private System.Windows.Forms.ToolStripMenuItem GRB;
-        private System.Windows.Forms.ToolStripMenuItem GBR;
-        private System.Windows.Forms.ToolStripMenuItem BRG;
-        private System.Windows.Forms.ToolStripMenuItem BGR;
-        private System.Windows.Forms.Button buttonSaveImage;
+        private System.Windows.Forms.ToolStripButton ColorChannelSwap;
+        private System.Windows.Forms.SplitContainer splitContainer;
+        private System.Windows.Forms.TextBox textBoxIndex;
     }
 }

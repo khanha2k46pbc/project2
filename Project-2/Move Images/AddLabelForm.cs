@@ -52,7 +52,7 @@ namespace Project_2.Move_Images
                 errorProviderPath.SetError(textBoxPath, "The folder path does not exist.");
                 check = false;
             }
-            // Check Duplicate name, key
+            // Check Duplicate name, key, path
             foreach (Label label in MoveImagesForm.labels)
             {
                 if (label.name == textBoxName.Text)
@@ -71,12 +71,18 @@ namespace Project_2.Move_Images
                     check = false;
                 }
             }
-
-            // 
+            // check duplicate path with RootFolder
+            if (textBoxPath.Text == RootFolder.path)
+            {
+                errorProviderPath.SetError(textBoxPath, "Duplicate with root path");
+                check = false;
+            }
+            // check to return
             if (!check)
             {
                 return;
             }
+            // add label
             string name = textBoxName.Text;
             char key = textBoxKey.Text[0];
             string path = textBoxPath.Text;

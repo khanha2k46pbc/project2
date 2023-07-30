@@ -64,11 +64,11 @@
     <Compile Include="Move Images\AddLabelForm.Designer.cs">
       <DependentUpon>AddLabelForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Move Images\ColorChannelSwapForm.cs">
+    <Compile Include="Move Images\ColorChannelSwap.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Move Images\ColorChannelSwapForm.Designer.cs">
-      <DependentUpon>ColorChannelSwapForm.cs</DependentUpon>
+    <Compile Include="Move Images\ColorChannelSwap.Designer.cs">
+      <DependentUpon>ColorChannelSwap.cs</DependentUpon>
     </Compile>
     <Compile Include="Move Images\Label.cs" />
     <Compile Include="Move Images\MoveImagesForm.cs">
@@ -90,8 +90,8 @@
     <EmbeddedResource Include="Move Images\AddLabelForm.resx">
       <DependentUpon>AddLabelForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Move Images\ColorChannelSwapForm.resx">
-      <DependentUpon>ColorChannelSwapForm.cs</DependentUpon>
+    <EmbeddedResource Include="Move Images\ColorChannelSwap.resx">
+      <DependentUpon>ColorChannelSwap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Move Images\MoveImagesForm.resx">
       <DependentUpon>MoveImagesForm.cs</DependentUpon>
@@ -145,6 +145,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\remove label.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Please Choose Root Folder1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -83,6 +83,16 @@ namespace Project_2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap delete {
+            get {
+                object obj = ResourceManager.GetObject("delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap next {
             get {
                 object obj = ResourceManager.GetObject("next", resourceCulture);
@@ -106,6 +116,16 @@ namespace Project_2.Properties {
         internal static System.Drawing.Bitmap Please_Choose_Root_Folder {
             get {
                 object obj = ResourceManager.GetObject("Please Choose Root Folder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Please_Choose_Root_Folder1 {
+            get {
+                object obj = ResourceManager.GetObject("Please Choose Root Folder1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
