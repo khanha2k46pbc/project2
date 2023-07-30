@@ -1,6 +1,8 @@
 # project2
 This is my work in Project-2 course in SOICT, HUST
+
 The goal of the project is to create a tool to label images
+
 Some features:
 - Move images
 - Edit images (include in Move image)
