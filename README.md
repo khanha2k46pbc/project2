@@ -10,4 +10,4 @@ Some features:
 - Edit images (include in Move image)
 - Draw bounding box (developing)
 
-To use the tool, all you all need is Project-2\bin\Debug folder, run Project-2.exe.
+To use the tool, all you all need is Project-2\bin\Debug folder, then run Project-2.exe.
