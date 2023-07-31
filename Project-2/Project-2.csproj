@@ -46,10 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Draw Bouding Box\DrawBoudingBoxForm.cs">
+    <Compile Include="Draw Bounding Box\DrawBoudingBoxForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Draw Bouding Box\DrawBoudingBoxForm.Designer.cs">
+    <Compile Include="Draw Bounding Box\DrawBoudingBoxForm.Designer.cs">
       <DependentUpon>DrawBoudingBoxForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ModeSelectionForm.cs">
@@ -81,7 +81,7 @@
     <Compile Include="Move Images\Transaction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Draw Bouding Box\DrawBoudingBoxForm.resx">
+    <EmbeddedResource Include="Draw Bounding Box\DrawBoudingBoxForm.resx">
       <DependentUpon>DrawBoudingBoxForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModeSelectionForm.resx">

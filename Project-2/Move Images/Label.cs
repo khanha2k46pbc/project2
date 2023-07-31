@@ -10,11 +10,6 @@ namespace Project_2.Move_Images
 {
     internal class Label
     {
-        internal string name { get; set; }
-        internal string path { get; set; }
-        internal char key { get; set; }
-        internal List<string> imagePath { get; set; }
-
         internal Label(string name, char key, string path)
         {
             this.name = name;
@@ -22,6 +17,11 @@ namespace Project_2.Move_Images
             this.path = path;
             this.refresh();
         }
+
+        internal string name { get; set; }
+        internal string path { get; set; }
+        internal char key { get; set; }
+        internal List<string> imagePath { get; set; }
         internal void refresh()
         {
             this.imagePath = null;
@@ -31,6 +31,5 @@ namespace Project_2.Move_Images
             this.imagePath.AddRange(Directory.GetFiles(path: path, searchPattern: "*.gif", searchOption: SearchOption.TopDirectoryOnly));
             this.imagePath.AddRange(Directory.GetFiles(path: path, searchPattern: "*.jpeg", searchOption: SearchOption.TopDirectoryOnly));
         }
-
     }
 }

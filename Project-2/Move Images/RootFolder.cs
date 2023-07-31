@@ -13,7 +13,6 @@ namespace Project_2.Move_Images
         internal static List<string> imagePath { get; set; }
         internal static int current_index { get; set; }
         internal static bool isAllDirectories;
-
         internal static void refresh() 
         {
             if (isAllDirectories)
